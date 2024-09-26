@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         CircleAvatar(
                           radius: 40,
-                          backgroundImage: NetworkImage(apiProduct.title),
+                          backgroundImage: NetworkImage(apiProduct.thumbnail),
                         )
                       ],
                     ),

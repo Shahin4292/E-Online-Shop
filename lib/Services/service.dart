@@ -4,11 +4,6 @@ import 'package:http/http.dart' as http;
 
 import '../Model/model.dart';
 
-// class GetProductService {
-//   Future<List<Product>?> getProductService() async {
-//     return null;
-//   }
-// }
 
 getProducts() async {
   var response = await http.get(Uri.parse("https://dummyjson.com/products"));

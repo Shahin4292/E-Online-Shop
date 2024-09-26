@@ -1,6 +1,8 @@
 import 'package:e_online_shop/Model/model.dart';
 import 'package:flutter/material.dart';
 
+import '../Services/service.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -14,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getMyProduct() {
     isLoaded = true;
-    getMyProduct().then((value) {
+    getProducts().then((value) {
       setState(() {
         productModel = value;
         isLoaded = false;
@@ -32,10 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text("Online Shop"),
       ),
       body: isLoaded
-          ? const CircularProgressIndicator()
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               shrinkWrap: true,
               itemCount: productModel.length,
@@ -56,3 +59,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+

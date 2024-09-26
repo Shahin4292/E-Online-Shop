@@ -1,89 +1,95 @@
+// To parse this JSON data, do
+//
+//     final productModel = productModelFromJson(jsonString);
 
 import 'dart:convert';
 
-List<Product> productFromJson(String str) =>
-    List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
+ProductModel productModelFromJson(String str) =>
+    ProductModel.fromJson(json.decode(str));
 
-String productToJson(List<Product> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String productModelToJson(ProductModel data) => json.encode(data.toJson());
+
+class ProductModel {
+  List<Product> products;
+  int total;
+  int skip;
+  int limit;
+
+  ProductModel({
+    required this.products,
+    required this.total,
+    required this.skip,
+    required this.limit,
+  });
+
+  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+    products: List<Product>.from(
+        json["products"].map((x) => Product.fromJson(x))),
+    total: json["total"],
+    skip: json["skip"],
+    limit: json["limit"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "products": List<dynamic>.from(products.map((x) => x.toJson())),
+    "total": total,
+    "skip": skip,
+    "limit": limit,
+  };
+}
 
 class Product {
   int id;
   String title;
-  double price;
   String description;
-  Category category;
-  String image;
-  Rating rating;
+  int price;
+  double discountPercentage;
+  double rating;
+  int stock;
+  String brand;
+  String category;
+  String thumbnail;
+  List<String> images;
 
   Product({
     required this.id,
     required this.title,
-    required this.price,
     required this.description,
-    required this.category,
-    required this.image,
+    required this.price,
+    required this.discountPercentage,
     required this.rating,
+    required this.stock,
+    required this.brand,
+    required this.category,
+    required this.thumbnail,
+    required this.images,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     id: json["id"],
     title: json["title"],
-    price: json["price"]?.toDouble(),
     description: json["description"],
-    category: categoryValues.map[json["category"]]!,
-    image: json["image"],
-    rating: Rating.fromJson(json["rating"]),
+    price: json["price"],
+    discountPercentage: json["discountPercentage"]?.toDouble(),
+    rating: json["rating"]?.toDouble(),
+    stock: json["stock"],
+    brand: json["brand"],
+    category: json["category"],
+    thumbnail: json["thumbnail"],
+    images: List<String>.from(json["images"].map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "title": title,
-    "price": price,
     "description": description,
-    "category": categoryValues.reverse[category],
-    "image": image,
-    "rating": rating.toJson(),
+    "price": price,
+    "discountPercentage": discountPercentage,
+    "rating": rating,
+    "stock": stock,
+    "brand": brand,
+    "category": category,
+    "thumbnail": thumbnail,
+    "images": List<dynamic>.from(images.map((x) => x)),
   };
-}
-
-enum Category { ELECTRONICS, JEWELERY, MEN_S_CLOTHING, WOMEN_S_CLOTHING }
-
-final categoryValues = EnumValues({
-  "electronics": Category.ELECTRONICS,
-  "jewelery": Category.JEWELERY,
-  "men's clothing": Category.MEN_S_CLOTHING,
-  "women's clothing": Category.WOMEN_S_CLOTHING
-});
-
-class Rating {
-  double rate;
-  int count;
-
-  Rating({
-    required this.rate,
-    required this.count,
-  });
-
-  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-    rate: json["rate"]?.toDouble(),
-    count: json["count"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "rate": rate,
-    "count": count,
-  };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

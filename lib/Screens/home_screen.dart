@@ -44,15 +44,18 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: productModel.length,
               itemBuilder: (context, index) {
                 final apiProduct = productModel[index];
-                return GestureDetector(
-                  onTap: () {},
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundImage: NetworkImage(apiProduct.thumbnail),
-                      )
-                    ],
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 40,
+                          backgroundImage: NetworkImage(apiProduct.title),
+                        )
+                      ],
+                    ),
                   ),
                 );
               }),
